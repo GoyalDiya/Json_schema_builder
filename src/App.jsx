@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import { useForm, FormProvider } from "react-hook-form";
+import FieldRow from "./components/FieldRow";
+import JsonPreview from "./components/JsonPreview";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const methods = useForm({
+    defaultValues: {
+      fields: [],
+    },
+  });
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <FormProvider {...methods}>
+      <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
+        {/* Form Builder */}
+        <div className=" flex flex-col p-8">
+          
+          <form
+            onSubmit={methods.handleSubmit((data) => {
+              
+            })}
+            className="flex flex-col gap-4"
+          >
+            <FieldRow nestLevel={0} namePrefix="fields" />
+            <button
+              type="submit"
+              className="w-24 mt-4 py-1 rounded border bg-white hover:bg-gray-100 text-gray-800"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+        {/* JSON Preview */}
+        <div className="bg-white rounded-lg shadow p-8 m-8" style={{ minWidth: "300px", width: "500px", maxWidth: "100%" }}>
+  <JsonPreview />
+</div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </FormProvider>
+  );
 }
 
-export default App
+export default App;

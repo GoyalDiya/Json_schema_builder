@@ -3,7 +3,7 @@ import { useFieldArray, useFormContext, Controller } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectTrigger, SelectContent, SelectItem } from "@/components/ui/select";
-
+import { Switch } from "@/components/ui/switch"; 
 
 const FIELD_TYPES = [
   { value: "string", label: "string" },
@@ -25,18 +25,18 @@ function FieldRow({ nestLevel, namePrefix }) {
       {fields.map((field, idx) => {
         const fieldName = `${namePrefix}[${idx}]`;
         const type = values?.[idx]?.type || "string";
-        // For nested fields, render the row and its nested children in a vertical stack
+        
         if (type === "nested") {
           return (
             <div key={field.id} className={`ml-8 border-l-2 border-gray-200 pl-4 w-full space-y-2`}>
               <div className="flex items-center gap-2">
-                {/* Key Input */}
+
                 <Input
                   {...register(`${fieldName}.key`)}
                   placeholder="Field name"
                   className="w-32"
                 />
-                /* Type Select */
+
                 <Controller
                   control={control}
                   name={`${fieldName}.type`}
@@ -63,13 +63,13 @@ function FieldRow({ nestLevel, namePrefix }) {
                     </Select>
                   )}
                 />
-                /* Toggle */
+                
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input type="checkbox" className="sr-only peer" />
                   <div className="w-11 h-6 bg-gray-300 rounded-full peer peer-checked:bg-blue-600 transition-colors"></div>
                   <div className="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform peer-checked:translate-x-5"></div>
                 </label>
-                /* Remove Button */
+               
                 <Button
                   type="button"
                   variant="ghost"
@@ -80,7 +80,7 @@ function FieldRow({ nestLevel, namePrefix }) {
                   ×
                 </Button>
               </div>
-              
+            
               <FieldRow
                 nestLevel={nestLevel + 1}
                 namePrefix={`${fieldName}.fields`}
@@ -95,19 +95,19 @@ function FieldRow({ nestLevel, namePrefix }) {
             </div>
           );
         }
-        
+       
         return (
           <div
             key={field.id}
             className={`flex items-center gap-2 ${nestLevel > 0 ? "ml-8 border-l-2 border-gray-200 pl-4" : ""}`}
           >
-            /* Key Input */
+            
             <Input
               {...register(`${fieldName}.key`)}
               placeholder="Field name"
               className="w-32"
             />
-            /* Type Select */
+            
             <Controller
               control={control}
               name={`${fieldName}.type`}
@@ -134,13 +134,13 @@ function FieldRow({ nestLevel, namePrefix }) {
                 </Select>
               )}
             />
-            /* Toggle */
+            
             <label className="relative inline-flex items-center cursor-pointer">
               <input type="checkbox" className="sr-only peer" />
               <div className="w-11 h-6 bg-gray-300 rounded-full peer peer-checked:bg-blue-600 transition-colors"></div>
               <div className="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform peer-checked:translate-x-5"></div>
             </label>
-            /* Remove Button */
+          
             <Button
               type="button"
               variant="ghost"
@@ -153,7 +153,6 @@ function FieldRow({ nestLevel, namePrefix }) {
           </div>
         );
       })}
-      
       {nestLevel === 0 && (
         <Button
           type="button"
