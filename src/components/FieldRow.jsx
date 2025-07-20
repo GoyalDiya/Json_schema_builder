@@ -36,7 +36,7 @@ function FieldRow({ nestLevel, namePrefix }) {
                   placeholder="Field name"
                   className="w-32"
                 />
-                {/* Type Select */}
+                /* Type Select */
                 <Controller
                   control={control}
                   name={`${fieldName}.type`}
@@ -63,13 +63,13 @@ function FieldRow({ nestLevel, namePrefix }) {
                     </Select>
                   )}
                 />
-                {/* Toggle */}
+                /* Toggle */
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input type="checkbox" className="sr-only peer" />
                   <div className="w-11 h-6 bg-gray-300 rounded-full peer peer-checked:bg-blue-600 transition-colors"></div>
                   <div className="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform peer-checked:translate-x-5"></div>
                 </label>
-                {/* Remove Button */}
+                /* Remove Button */
                 <Button
                   type="button"
                   variant="ghost"
@@ -80,7 +80,7 @@ function FieldRow({ nestLevel, namePrefix }) {
                   ×
                 </Button>
               </div>
-              {/* Nested children and add button */}
+              
               <FieldRow
                 nestLevel={nestLevel + 1}
                 namePrefix={`${fieldName}.fields`}
@@ -95,16 +95,76 @@ function FieldRow({ nestLevel, namePrefix }) {
             </div>
           );
         }
-        // Non-nested fields (default)
+        
         return (
           <div
             key={field.id}
             className={`flex items-center gap-2 ${nestLevel > 0 ? "ml-8 border-l-2 border-gray-200 pl-4" : ""}`}
           >
-            {/* Key Input */}
+            /* Key Input */
             <Input
               {...register(`${fieldName}.key`)}
               placeholder="Field name"
               className="w-32"
             />
-           
+            /* Type Select */
+            <Controller
+              control={control}
+              name={`${fieldName}.type`}
+              render={({ field: selectField }) => (
+                <Select
+                  value={selectField.value}
+                  onValueChange={(val) => {
+                    selectField.onChange(val);
+                    if (val === "nested") setValue(`${fieldName}.fields`, []);
+                  }}
+                >
+                  <SelectTrigger
+                    className="w-32 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400 transition placeholder:text-gray-500"
+                  >
+                    {selectField.value ? selectField.value : "Field Type"}
+                  </SelectTrigger>
+                  <SelectContent>
+                    {FIELD_TYPES.map((t) => (
+                      <SelectItem key={t.value} value={t.value}>
+                        {t.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
+            /* Toggle */
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" className="sr-only peer" />
+              <div className="w-11 h-6 bg-gray-300 rounded-full peer peer-checked:bg-blue-600 transition-colors"></div>
+              <div className="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform peer-checked:translate-x-5"></div>
+            </label>
+            /* Remove Button */
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={() => remove(idx)}
+              className="text-xl text-black hover:text-black"
+            >
+              ×
+            </Button>
+          </div>
+        );
+      })}
+      
+      {nestLevel === 0 && (
+        <Button
+          type="button"
+          onClick={() => append({ key: "", type: "" })}
+          className="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl shadow-md py-3"
+        >
+          + Add Item
+        </Button>
+      )}
+    </div>
+  );
+}
+
+export default FieldRow;
