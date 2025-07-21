@@ -3,7 +3,7 @@ import { useFieldArray, useFormContext, Controller } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectTrigger, SelectContent, SelectItem } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch"; 
+
 
 const FIELD_TYPES = [
   { value: "string", label: "string" },
