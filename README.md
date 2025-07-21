@@ -6,9 +6,7 @@ Of course. Here is a more detailed and professional `README.md` for your project
 
 **A dynamic, web-based visual editor for creating and previewing JSON schemas in real-time. Built with React and Tailwind CSS.**
 
-![JSON Schema Builder Demo]
 <img width="2490" height="1232" alt="image" src="https://github.com/user-attachments/assets/5ba16c4f-6ef6-49a4-a749-b15f678aac0e" />
-
 
 ## Overview
 
