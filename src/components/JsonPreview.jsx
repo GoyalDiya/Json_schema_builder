@@ -7,14 +7,16 @@ function buildJson(fields) {
   fields.forEach((f) => {
     if (!f.key) return;
     if (f.type === "string") obj[f.key] = "string";
-    else if (f.type === "number") obj[f.key] = 0;
+    else if (f.type === "number") obj[f.key] = "number";
     else if (f.type === "nested") obj[f.key] = buildJson(f.fields);
+    else obj[f.key] = ""; 
   });
   return obj;
 }
 function JsonPreview() {
   const { control } = useFormContext();
-  const fields = useWatch({ control, name: "fields" });
+  
+  const fields = useWatch({ control })?.fields;
   const json = buildJson(fields);
 
   return (
